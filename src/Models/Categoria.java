@@ -1,9 +1,10 @@
 package Models;
 
 public class Categoria {
+    private static int contadorId = 1;
+
     private int id;
     private String nome;
-    private static int contadorId = 1;
 
     public Categoria(String nome) {
         this.id = contadorId++;
@@ -27,4 +28,5 @@ public class Categoria {
         return id + " - " + nome;
     }
 }
+
 

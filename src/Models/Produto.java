@@ -40,6 +40,7 @@ public class Produto {
 
     @Override
     public String toString() {
-        return id + " - " + nome + " (R$ " + preco + ") - " + categoria.getNome();
+        return id + " - " + nome + " (R$ " + String.format("%.2f", preco) + ") - " + categoria.getNome();
     }
 }
+

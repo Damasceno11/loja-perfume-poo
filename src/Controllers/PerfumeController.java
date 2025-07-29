@@ -12,7 +12,7 @@ public class PerfumeController {
     private Scanner scan = new Scanner(System.in);
 
     public void cadastrarPerfume(ArrayList<Produto> produtos, ArrayList<Categoria> categorias) {
-        Categoria categoria = encontrarOuCriarCategoria(categorias, "Perfumes");
+        Categoria categoria = encontrarOuCriarCategoria(categorias, "Perfume");
 
         System.out.print("Nome: ");
         String nome = scan.nextLine();
@@ -35,71 +35,92 @@ public class PerfumeController {
         Perfume perfume = new Perfume(nome, preco, categoria, descricao, fragrancia, genero, fabricante);
         produtos.add(perfume);
 
-        System.out.println("Perfume cadastrado com sucesso!");
+        System.out.println("✅ Perfume cadastrado com sucesso!");
     }
 
     public void listarPerfumes(ArrayList<Produto> produtos) {
         System.out.println("\n--- Lista de Perfumes ---");
         boolean encontrou = false;
+
         for (Produto p : produtos) {
-            if (p.getCategoria().getNome().equalsIgnoreCase("Perfumes")) {
+            if (p instanceof Perfume) {
                 System.out.println(p);
                 encontrou = true;
             }
         }
+
         if (!encontrou) {
             System.out.println("Nenhum perfume cadastrado.");
         }
     }
 
     public void verDetalhes(ArrayList<Produto> produtos) {
-        listarPerfumes(produtos);
-        System.out.print("ID do perfume para ver detalhes: ");
-        int id = lerInt();
+        System.out.print("Digite o nome do perfume para ver os detalhes: ");
+        String nomeBusca = scan.nextLine().toLowerCase();
 
+        boolean encontrou = false;
         for (Produto p : produtos) {
-            if (p.getId() == id && p instanceof Perfume) {
+            if (p instanceof Perfume && p.getNome().toLowerCase().equals(nomeBusca)) {
                 p.exibirDetalhes();
-                return;
+                encontrou = true;
+                break;
             }
         }
-        System.out.println("Perfume não encontrado.");
+
+        if (!encontrou) {
+            System.out.println("Perfume não encontrado.");
+        }
     }
 
     public void removerPerfume(ArrayList<Produto> produtos) {
-        listarPerfumes(produtos);
-        System.out.print("ID do perfume para remover: ");
-        int id = lerInt();
+        System.out.print("Digite o nome do perfume a ser removido: ");
+        String nomeBusca = scan.nextLine().toLowerCase();
 
-        boolean removido = produtos.removeIf(p -> p.getId() == id && p.getCategoria().getNome().equalsIgnoreCase("Perfumes"));
+        boolean removido = produtos.removeIf(p -> p instanceof Perfume && p.getNome().toLowerCase().equals(nomeBusca));
 
         if (removido) {
-            System.out.println("Perfume removido.");
+            System.out.println("Perfume removido com sucesso.");
         } else {
             System.out.println("Perfume não encontrado.");
         }
     }
 
+    public void pesquisarPerfume(ArrayList<Produto> produtos) {
+        System.out.print("Digite nome ou característica para pesquisar: ");
+        String termo = scan.nextLine().toLowerCase();
+
+        boolean encontrou = false;
+        System.out.println("\n--- Resultado da Pesquisa ---");
+
+        for (Produto p : produtos) {
+            if (p instanceof Perfume perfume) {
+                if (
+                        perfume.getNome().toLowerCase().contains(termo) ||
+                                perfume.getDescricao().toLowerCase().contains(termo) ||
+                                perfume.getFragrancia().toLowerCase().contains(termo) ||
+                                perfume.getGenero().toLowerCase().contains(termo) ||
+                                perfume.getFabricante().toLowerCase().contains(termo)
+                ) {
+                    System.out.println(perfume);
+                    encontrou = true;
+                }
+            }
+        }
+
+        if (!encontrou) {
+            System.out.println("Nenhum perfume encontrado com esse termo.");
+        }
+    }
+
     private Categoria encontrarOuCriarCategoria(ArrayList<Categoria> categorias, String nome) {
         for (Categoria c : categorias) {
-            if (c.getNome().equalsIgnoreCase(nome)) return c;
+            if (c.getNome().equalsIgnoreCase(nome)) {
+                return c;
+            }
         }
         Categoria nova = new Categoria(nome);
         categorias.add(nova);
         return nova;
-    }
-
-    private int lerInt() {
-        while (true) {
-            try {
-                int val = scan.nextInt();
-                scan.nextLine();
-                return val;
-            } catch (InputMismatchException e) {
-                System.out.println("Digite um número inteiro válido:");
-                scan.nextLine();
-            }
-        }
     }
 
     private double lerDouble() {
@@ -108,8 +129,10 @@ public class PerfumeController {
                 String entrada = scan.nextLine().replace(",", ".");
                 return Double.parseDouble(entrada);
             } catch (NumberFormatException e) {
-                System.out.println("Digite um valor decimal válido (ex: 299.99):");
+                System.out.print("Valor inválido. Digite novamente (ex: 199.99): ");
             }
         }
     }
+
+
 }
