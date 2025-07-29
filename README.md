@@ -45,7 +45,7 @@ src/Views/Main.java
 
 **Pedro Paulo Damasceno Muniz**
 Estudante de Análise e Desenvolvimento de Sistemas – Uniasselvi – Blumenau
-Participante do treinamento intensivo +Devs2Blu – Blumenau
+Formação prática em desenvolvimento Full Stack pelo programa intensivo +Devs2Blu – Blumenau, voltado à capacitação de profissionais para a área de tecnologia.
 GitHub: [github.com/Damasceno11](https://github.com/Damasceno11)
 LinkedIn: [linkedin.com/in/pedro-damasceno-23b330150](https://www.linkedin.com/in/pedro-damasceno-23b330150/)
 
